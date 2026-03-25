@@ -5,19 +5,37 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "seed": "tsx scripts/seed-partner.ts",
+    "check-models": "tsx scripts/check-models.ts",
+    "test-query": "tsx scripts/test-store-query.ts"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
+    "@types/bcrypt": "^6.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "axios": "^1.6.7",
+    "bcrypt": "^6.0.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "lucide-react": "^0.344.0",
+    "mongoose": "^9.3.1",
     "next": "16.2.1",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.50.1",
+    "tailwind-merge": "^2.2.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^16.4.5",
     "tailwindcss": "^4",
+    "tsx": "^4.7.0",
     "typescript": "^5"
   }
 }
