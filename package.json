@@ -5,10 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "seed": "tsx scripts/seed-partner.ts",
-    "check-models": "tsx scripts/check-models.ts",
-    "test-query": "tsx scripts/test-store-query.ts"
+    "start": "next start"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
