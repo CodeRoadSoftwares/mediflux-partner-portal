@@ -21,23 +21,13 @@ export async function GET(req: NextRequest) {
     const query = searchParams.get("query") || "";
     const partnerUserId = searchParams.get("partnerUserId");
 
-    console.log("Fetching stores for partner:", partnerUserId);
-    console.log("Partner ID type:", typeof partnerUserId);
-
     const filter: any = {};
 
     if (partnerUserId) {
       try {
         const objectId = new Types.ObjectId(partnerUserId);
         filter.partnerUserId = objectId;
-        console.log("Converted to ObjectId:", objectId);
-        console.log("Filter partnerUserId type:", typeof filter.partnerUserId);
-        console.log(
-          "Filter partnerUserId instanceof ObjectId:",
-          filter.partnerUserId instanceof Types.ObjectId,
-        );
       } catch (e) {
-        console.log("ObjectId conversion failed, using string");
         filter.partnerUserId = partnerUserId;
       }
     }
@@ -50,11 +40,7 @@ export async function GET(req: NextRequest) {
       ];
     }
 
-    console.log("Filter keys:", Object.keys(filter));
-    console.log("About to query with filter...");
-
     const total = await Store.countDocuments(filter);
-    console.log("Total stores found:", total);
 
     const stores = await Store.find(filter)
       .select("-password")
@@ -62,8 +48,6 @@ export async function GET(req: NextRequest) {
       .skip((page - 1) * limit)
       .limit(limit)
       .lean();
-
-    console.log("Stores returned:", stores.length);
 
     return NextResponse.json(
       {
@@ -90,11 +74,6 @@ export async function POST(req: NextRequest) {
   try {
     const partner = getPartnerFromRequest(req);
     const cookies = req.cookies.getAll();
-    console.log(
-      "All cookies:",
-      cookies.map((c) => c.name),
-    );
-    console.log("Partner from token:", partner);
 
     if (!partner) {
       return NextResponse.json(
@@ -113,9 +92,6 @@ export async function POST(req: NextRequest) {
         { status: 500 },
       );
     }
-
-    console.log("Calling external API:", `${externalApiUrl}/stores/`);
-    console.log("With API Key:", apiKey.substring(0, 10) + "...");
 
     const response = await axios.post(`${externalApiUrl}/stores/`, data, {
       headers: {

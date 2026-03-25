@@ -12,7 +12,6 @@ export function useTokenRefresh() {
     const refreshToken = async () => {
       try {
         await api.post("/auth/refresh");
-        console.log("Token refreshed successfully");
       } catch (error) {
         console.error("Failed to refresh token:", error);
       }
