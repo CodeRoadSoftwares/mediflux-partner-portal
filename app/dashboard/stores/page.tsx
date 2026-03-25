@@ -148,15 +148,6 @@ export default function StoresPage() {
                       <div className="text-sm text-teal-600">
                         Created: {formatDate(store.createdAt)}
                       </div>
-                      <Button
-                        size="sm"
-                        className="w-full"
-                        onClick={() =>
-                          router.push(`/dashboard/stores/${store._id}`)
-                        }
-                      >
-                        View Details
-                      </Button>
                     </CardContent>
                   </Card>
                 ))}
@@ -184,9 +175,6 @@ export default function StoresPage() {
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-bold text-teal-900">
                         Created
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-bold text-teal-900">
-                        Actions
                       </th>
                     </tr>
                   </thead>
@@ -221,17 +209,6 @@ export default function StoresPage() {
                         </td>
                         <td className="px-4 py-3 text-sm text-teal-700">
                           {formatDate(store.createdAt)}
-                        </td>
-                        <td className="px-4 py-3">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() =>
-                              router.push(`/dashboard/stores/${store._id}`)
-                            }
-                          >
-                            View
-                          </Button>
                         </td>
                       </tr>
                     ))}
