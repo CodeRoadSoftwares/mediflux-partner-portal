@@ -38,3 +38,14 @@ export function verifyDjangoPassword(
     return false;
   }
 }
+
+export function hashDjangoPassword(rawPassword: string): string {
+  const iterations = 260000;
+  const salt = crypto
+    .randomBytes(12)
+    .toString("base64")
+    .replace(/[^a-zA-Z0-9]/g, "")
+    .slice(0, 22);
+  const hash = crypto.pbkdf2Sync(rawPassword, salt, iterations, 32, "sha256");
+  return `pbkdf2_sha256$${iterations}$${salt}$${hash.toString("base64")}`;
+}

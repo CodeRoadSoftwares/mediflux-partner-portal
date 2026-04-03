@@ -10,7 +10,12 @@ export const createStoreSchema = z.object({
   email: z.string().email("Invalid email address"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   licenseNumber: z.string().min(1, "License number is required"),
-  gstin: z.string().min(15, "GSTIN must be 15 characters").max(15),
+  gstin: z
+    .string()
+    .min(15, "GSTIN must be 15 characters")
+    .max(15)
+    .optional()
+    .or(z.literal("")),
   addressLine1: z.string().min(1, "Address line 1 is required"),
   addressLine2: z.string().optional(),
   locality: z.string().min(1, "Locality is required"),

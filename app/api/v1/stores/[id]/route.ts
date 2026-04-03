@@ -1,5 +1,5 @@
 import { connectDb } from "@/lib/db/db";
-import { Store } from "@/models";
+import { Store, Membership } from "@/models";
 import { getPartnerFromRequest } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -16,13 +16,20 @@ export async function GET(
     await connectDb();
 
     const { id } = await params;
-    const store = await Store.findById(id).select("-password").lean();
+    const store = (await Store.findById(id).select("-password").lean()) as any;
 
     if (!store) {
       return NextResponse.json({ message: "Store not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ store }, { status: 200 });
+    const membership = await Membership.findOne({ storeId: store._id })
+      .sort({ payment_date: -1 })
+      .lean();
+
+    return NextResponse.json(
+      { store: { ...store, hasMembership: !!membership } },
+      { status: 200 },
+    );
   } catch (error) {
     return NextResponse.json(
       {

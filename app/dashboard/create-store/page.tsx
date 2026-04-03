@@ -12,9 +12,11 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/toast";
 import { apiWithKey } from "@/lib/api";
+import { indianStates, stateDistricts } from "@/lib/area";
 
 export default function CreateStorePage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedState, setSelectedState] = useState("");
   const router = useRouter();
   const { partner } = useAuth();
   const { showToast, ToastComponent } = useToast();
@@ -34,6 +36,10 @@ export default function CreateStorePage() {
   useEffect(() => {
     setValue("isOnTrial", true);
   }, [setValue]);
+
+  const districts = selectedState
+    ? ((stateDistricts as Record<string, string[]>)[selectedState] ?? [])
+    : [];
 
   const onSubmit = async (data: CreateStoreFormData) => {
     if (!partner) {
@@ -64,7 +70,7 @@ export default function CreateStorePage() {
   return (
     <div className="mx-auto max-w-4xl space-y-6 sm:space-y-8">
       {ToastComponent}
-      <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-2xl p-6 sm:p-8 text-white shadow-xl">
+      <div className="bg-linear-to-r from-teal-600 to-teal-700 rounded-2xl p-6 sm:p-8 text-white shadow-xl">
         <h1 className="text-2xl sm:text-3xl font-bold">Create New Store</h1>
         <p className="mt-2 text-teal-50">
           Fill in the details to register a new pharmacy store
@@ -142,13 +148,15 @@ export default function CreateStorePage() {
 
               <div className="space-y-2 sm:col-span-2">
                 <Label htmlFor="gstin" className="text-teal-900 font-medium">
-                  GSTIN *
+                  GSTIN{" "}
+                  <span className="text-teal-500 font-normal">(optional)</span>
                 </Label>
                 <Input
                   id="gstin"
                   className="border-teal-200 focus:border-teal-500 focus:ring-teal-500"
                   {...register("gstin")}
                   maxLength={15}
+                  placeholder="15-character GSTIN"
                 />
                 {errors.gstin && (
                   <p className="text-sm text-red-600">{errors.gstin.message}</p>
@@ -199,13 +207,23 @@ export default function CreateStorePage() {
             <div className="grid gap-4 sm:grid-cols-3">
               <div className="space-y-2">
                 <Label htmlFor="locality" className="text-teal-900 font-medium">
-                  Locality *
+                  District *
                 </Label>
-                <Input
+                <select
                   id="locality"
-                  className="border-teal-200 focus:border-teal-500 focus:ring-teal-500"
                   {...register("locality")}
-                />
+                  disabled={!selectedState}
+                  className="w-full h-10 rounded-md border border-teal-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <option value="">
+                    {selectedState ? "Select district" : "Select state first"}
+                  </option>
+                  {districts.map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  ))}
+                </select>
                 {errors.locality && (
                   <p className="text-sm text-red-600">
                     {errors.locality.message}
@@ -234,11 +252,23 @@ export default function CreateStorePage() {
                 <Label htmlFor="state" className="text-teal-900 font-medium">
                   State *
                 </Label>
-                <Input
+                <select
                   id="state"
-                  className="border-teal-200 focus:border-teal-500 focus:ring-teal-500"
                   {...register("state")}
-                />
+                  onChange={(e) => {
+                    setValue("state", e.target.value);
+                    setValue("locality", "");
+                    setSelectedState(e.target.value);
+                  }}
+                  className="w-full h-10 rounded-md border border-teal-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                >
+                  <option value="">Select state</option>
+                  {indianStates.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
                 {errors.state && (
                   <p className="text-sm text-red-600">{errors.state.message}</p>
                 )}

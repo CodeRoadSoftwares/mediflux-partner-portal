@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/utils";
@@ -15,6 +16,7 @@ export function Sidebar() {
     { href: "/dashboard", label: "Dashboard", icon: "📊" },
     { href: "/dashboard/create-store", label: "Create Store", icon: "➕" },
     { href: "/dashboard/stores", label: "My Stores", icon: "🏪" },
+    { href: "/dashboard/profile", label: "My Profile", icon: "👤" },
   ];
 
   return (
@@ -23,9 +25,13 @@ export function Sidebar() {
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-teal-200 shadow-sm backdrop-blur-sm bg-opacity-95">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-linear-to-br from-teal-600 to-teal-700 rounded-lg flex items-center justify-center">
-              <span className="text-lg">🏪</span>
-            </div>
+            <Image
+              src="/image.png"
+              alt="Mediflux"
+              width={32}
+              height={32}
+              className="rounded-lg"
+            />
             <h1 className="text-lg font-bold text-teal-900">
               Mediflux Partner Portal
             </h1>
@@ -87,9 +93,13 @@ export function Sidebar() {
       >
         <div className="p-6 border-b border-teal-100">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-linear-to-br from-teal-600 to-teal-700 rounded-xl flex items-center justify-center shadow-md">
-              <span className="text-xl">🏪</span>
-            </div>
+            <Image
+              src="/image.png"
+              alt="Mediflux"
+              width={40}
+              height={40}
+              className="rounded-xl shadow-md"
+            />
             <h1 className="text-xl font-bold text-teal-900">
               Mediflux Partner Portal
             </h1>

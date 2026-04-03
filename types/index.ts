@@ -1,10 +1,19 @@
 export interface Partner {
   id: string;
   email: string;
-  phone: string;
-  address: string;
+  name?: string;
+  phone?: string;
+  address?: string;
   partnerCode: string;
   defaultReferralAmount?: number;
+}
+
+export interface StoreAddress {
+  addressLine1?: string;
+  addressLine2?: string;
+  locality?: string;
+  pincode?: string;
+  state?: string;
 }
 
 export interface Store {
@@ -13,19 +22,24 @@ export interface Store {
   email: string;
   phone: string;
   licenseNumber: string;
-  gstin: string;
-  addressLine1: string;
-  addressLine2: string;
-  locality: string;
-  pincode: string;
-  state: string;
-  ownerName: string;
+  gstin?: string;
+  address?: StoreAddress;
+  // flat address fields (legacy)
+  addressLine1?: string;
+  addressLine2?: string;
+  locality?: string;
+  pincode?: string;
+  state?: string;
+  contactName?: string;
+  ownerName?: string;
   hasUserPaid: boolean;
   isOnTrial: boolean;
   isSubscriptionActive: boolean;
+  subscriptionEndDate?: string;
   partnerUserId: string;
   createdAt: string;
   updatedAt: string;
+  hasMembership?: boolean;
 }
 
 export interface CreateStorePayload {

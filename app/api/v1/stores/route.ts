@@ -1,5 +1,5 @@
 import { connectDb } from "@/lib/db/db";
-import { Store } from "@/models";
+import { Store, Membership } from "@/models";
 import { getPartnerFromRequest } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
@@ -49,9 +49,20 @@ export async function GET(req: NextRequest) {
       .limit(limit)
       .lean();
 
+    // Attach hasMembership flag
+    const storeIds = stores.map((s: any) => s._id);
+    const memberships = await Membership.find({ storeId: { $in: storeIds } })
+      .select("storeId")
+      .lean();
+    const paidSet = new Set(memberships.map((m: any) => m.storeId.toString()));
+    const storesWithMembership = stores.map((s: any) => ({
+      ...s,
+      hasMembership: paidSet.has(s._id.toString()),
+    }));
+
     return NextResponse.json(
       {
-        stores,
+        stores: storesWithMembership,
         total,
         page,
         pages: Math.ceil(total / limit),

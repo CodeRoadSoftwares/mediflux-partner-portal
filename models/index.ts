@@ -52,8 +52,26 @@ const partnerReferralSchema = new Schema(
   { collection: "partner_referrals", strict: false },
 );
 
+const membershipSchema = new Schema(
+  {
+    storeId: Schema.Types.ObjectId,
+    payment_mode: String,
+    amount_paid: Number,
+    discount: Number,
+    discount_reason: String,
+    duration: Number,
+    payment_date: Date,
+    subscription_end_date: Date,
+    createdAt: Date,
+    updatedAt: Date,
+  },
+  { collection: "memberships", strict: false },
+);
+
 export const Partner: Model<any> =
   models.partner_users || model("partner_users", partnerUserSchema);
 export const Store: Model<any> = models.stores || model("stores", storeSchema);
 export const PartnerReferral: Model<any> =
   models.partner_referrals || model("partner_referrals", partnerReferralSchema);
+export const Membership: Model<any> =
+  models.memberships || model("memberships", membershipSchema);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -66,8 +67,14 @@ export default function LoginPage() {
       {ToastComponent}
       <Card className="w-full max-w-md">
         <CardHeader className="text-center space-y-2">
-          <div className="mx-auto w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mb-2">
-            <span className="text-3xl">🏪</span>
+          <div className="mx-auto w-16 h-16 flex items-center justify-center mb-2">
+            <Image
+              src="/image.png"
+              alt="Mediflux"
+              width={64}
+              height={64}
+              className="rounded-xl"
+            />
           </div>
           <CardTitle className="text-2xl">Partner Login</CardTitle>
           <CardDescription>
